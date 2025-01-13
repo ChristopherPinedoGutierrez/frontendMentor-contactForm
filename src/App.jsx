@@ -19,6 +19,12 @@ function App() {
     "6-consent": "",
   });
 
+  const [openModal, setOpenModal] = useState(false);
+
+  function handleOpenModal() {
+    setOpenModal(!openModal);
+  }
+
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
 
@@ -74,13 +80,37 @@ function App() {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log(formData);
+      handleOpenModal();
     }
   }
 
   return (
-    <div className="container mx-auto flex min-h-screen items-center justify-center bg-emerald-100">
-      <div className="my-8 flex flex-col gap-8 rounded-2xl border border-none bg-white p-6">
+    <div className="container mx-auto flex min-h-screen flex-col items-center justify-center bg-emerald-100">
+      {openModal && (
+        <div className="fixed top-4 flex flex-col gap-2 rounded-md bg-emerald-900 p-4 text-white">
+          <div className="flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+            <p className="text-sm font-semibold">Message Sent</p>
+          </div>
+          <p className="text-xs">
+            Thanks for completing the form. we´ll be in touch soon!
+          </p>
+        </div>
+      )}
+      <div className="my-28 flex flex-col gap-8 rounded-2xl border border-none bg-white p-6">
         <h1 className="text-3xl font-semibold">Contact Us</h1>
         <form
           noValidate
@@ -91,7 +121,10 @@ function App() {
           <div className="flex flex-col gap-4 lg:flex-row lg:justify-center">
             {/* Input text - First Name */}
             <div className="flex flex-col gap-4 lg:min-w-64">
-              <label htmlFor="inputFirstName" className="text-sm">
+              <label
+                htmlFor="inputFirstName"
+                className="cursor-pointer text-sm"
+              >
                 First Name <span className="text-emerald-900">*</span>
               </label>
               <input
@@ -100,7 +133,7 @@ function App() {
                 name="1-firstName"
                 value={formData["1-firstName"]}
                 onChange={handleChange}
-                className={`rounded-md ${errors["1-firstName"] ? "border-rose-500" : "border-emerald-900"}`}
+                className={`cursor-pointer rounded-md ${errors["1-firstName"] ? "border-rose-500" : "border-emerald-900"}`}
               />
               {errors["1-firstName"] && (
                 <p className="text-rose-500">{errors["1-firstName"]}</p>
@@ -108,7 +141,7 @@ function App() {
             </div>
             {/* Input text - Last Name */}
             <div className="flex flex-col gap-4 lg:min-w-64">
-              <label htmlFor="inputLastName" className="text-sm">
+              <label htmlFor="inputLastName" className="cursor-pointer text-sm">
                 Last Name <span className="text-emerald-900">*</span>
               </label>
               <input
@@ -117,7 +150,7 @@ function App() {
                 name="2-lastName"
                 value={formData["2-lastName"]}
                 onChange={handleChange}
-                className={`rounded-md ${errors["2-lastName"] ? "border-rose-500" : "border-emerald-900"}`}
+                className={`cursor-pointer rounded-md ${errors["2-lastName"] ? "border-rose-500" : "border-emerald-900"}`}
               />
               {errors["2-lastName"] && (
                 <p className="text-rose-500">{errors["2-lastName"]}</p>
@@ -126,7 +159,7 @@ function App() {
           </div>
           {/* Input email - Email Address */}
           <div className="flex flex-col gap-4">
-            <label htmlFor="inputEmail" className="text-sm">
+            <label htmlFor="inputEmail" className="cursor-pointer text-sm">
               Email Address <span className="text-emerald-900">*</span>
             </label>
             <input
@@ -135,7 +168,7 @@ function App() {
               name="3-email"
               value={formData["3-email"]}
               onChange={handleChange}
-              className={`rounded-md ${errors["3-email"] ? "border-rose-500" : "border-emerald-900"}`}
+              className={`cursor-pointer rounded-md ${errors["3-email"] ? "border-rose-500" : "border-emerald-900"}`}
             />
             {errors["3-email"] && (
               <p className="text-rose-500">{errors["3-email"]}</p>
@@ -148,7 +181,7 @@ function App() {
             </p>
             <div className="flex flex-col gap-4 lg:flex-row lg:justify-center">
               <label
-                className={`flex w-full items-center gap-2 rounded-md border p-2 has-[:checked]:bg-emerald-100 ${errors["4-queryType"] ? "" : "border-emerald-900"} `}
+                className={`flex w-full cursor-pointer items-center gap-2 rounded-md border p-2 has-[:checked]:bg-emerald-100 ${errors["4-queryType"] ? "" : "border-emerald-900"} `}
               >
                 <input
                   type="radio"
@@ -161,7 +194,7 @@ function App() {
                 <span>General Enquiry</span>
               </label>
               <label
-                className={`flex w-full items-center gap-2 rounded-md border p-2 has-[:checked]:bg-emerald-100 ${errors["4-queryType"] ? "" : "border-emerald-900"}`}
+                className={`flex w-full cursor-pointer items-center gap-2 rounded-md border p-2 has-[:checked]:bg-emerald-100 ${errors["4-queryType"] ? "" : "border-emerald-900"}`}
               >
                 <input
                   type="radio"
@@ -180,7 +213,7 @@ function App() {
           </div>
           {/* Textarea - Message */}
           <div className="flex flex-col gap-4">
-            <label htmlFor="textareaMessage" className="text-sm">
+            <label htmlFor="textareaMessage" className="cursor-pointer text-sm">
               Message <span className="text-emerald-900">*</span>
             </label>
             <textarea
@@ -188,7 +221,7 @@ function App() {
               name="5-message"
               value={formData["5-message"]}
               onChange={handleChange}
-              className={`resize-none rounded-md ${errors["5-message"] ? "border-rose-500" : "border-emerald-900"}`}
+              className={`cursor-pointer resize-none rounded-md ${errors["5-message"] ? "border-rose-500" : "border-emerald-900"}`}
             ></textarea>
             {errors["5-message"] && (
               <p className="text-rose-500">{errors["5-message"]}</p>
@@ -196,7 +229,7 @@ function App() {
           </div>
           {/* Checkbox - Consent */}
           <div className="max-w-64 lg:max-w-full">
-            <label className="flex items-center gap-4 text-sm">
+            <label className="flex cursor-pointer items-center gap-4 text-sm">
               <input
                 type="checkbox"
                 name="6-consent"
